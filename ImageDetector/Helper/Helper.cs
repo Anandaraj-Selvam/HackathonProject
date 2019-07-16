@@ -9,7 +9,7 @@ namespace ImageDetector.Helper
 {
     public class Helper
     {
-        private static CloudStorageAccount account = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=hackimage;AccountKey=Ek7pEkD1dScx/ytgE5SJWl5x0u3jDAPzvBzEkeUwCme5v/6obRZsaSqYIfUFNmqccXv00LA2svfaMWNU2lpGtA==;EndpointSuffix=core.windows.net");
+        private static CloudStorageAccount account = CloudStorageAccount.Parse("");
         private static CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
         public bool WriteBlobData(string containerName, string blobName, HttpPostedFile postedFile)
