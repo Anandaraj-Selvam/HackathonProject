@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/chooseImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="419dp"
+        android:text="@string/select_image" />
+
+    <Button
+        android:id="@+id/uploadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="218dp"
+        android:layout_marginTop="419dp"
+        android:text="@string/uploadImage" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="272dp"
+        android:layout_height="363dp"
+        android:layout_alignEnd="@+id/chooseImage"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="-156dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="97dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+</RelativeLayout>

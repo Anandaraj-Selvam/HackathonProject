@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">CrimeFinder</string>
+    <string name="select_image">SELECT IMAGE</string>
+    <string name="uploadImage">UPLOAD</string>
+    <string name="file_provider">in.hackathon.crimefinder.fileprovider</string>
+</resources>
