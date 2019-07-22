@@ -54,7 +54,7 @@ namespace ImageDetector.Controllers
                 }
                 var res = string.Format("Please Upload a image.");
                 dict.Add("error", res);
-                return Request.CreateResponse(HttpStatusCode.NotFound, dict);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, dict);
             }
             catch (Exception ex)
             {
