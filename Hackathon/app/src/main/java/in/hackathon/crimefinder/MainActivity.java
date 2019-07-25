@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -38,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonChoose;
     private Button buttonUpload;
     private ImageView imageView;
+    private TextView imagetextView;
     private EditText editText;
+    private EditText vechicleMatchedText;
 
     private int PICK_Image_Request = 1;
     private int PICK_IMAGE_FROM_CAMERA = 2;
@@ -59,7 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonChoose = (Button) findViewById(R.id.chooseImage);
         buttonUpload = (Button) findViewById(R.id.uploadImage);
         imageView = (ImageView) findViewById(R.id.imageView);
+        imagetextView=(TextView) findViewById(R.id.ImageText);
         editText = (EditText) findViewById(R.id.editText);
+        vechicleMatchedText = (EditText) findViewById(R.id.VechicleMatchedText);
 
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
@@ -81,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == buttonChoose){
+            imageView.setVisibility(View.VISIBLE);
+            vechicleMatchedText.setVisibility(View.INVISIBLE);
+            imagetextView.setVisibility(View.INVISIBLE);
             dispatchTakePictureIntent();
             //showFileChooser();
         }
@@ -91,9 +101,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
    private boolean uploadMultiPart(){
 
 
-            new UploadFileAsync(imageFilePath).execute();
+   AsyncTask<String, String, String> responseMassage =new UploadFileAsync(imageFilePath,this,imagetextView,imageView,vechicleMatchedText).execute();
 
 
+       //Toast.makeText(getApplicationContext(),responseMassage.toString(),Toast.LENGTH_SHORT).show();
        return true;
    }
     private void showFileChooser(){
@@ -147,6 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try{
                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                imageView.setImageBitmap(bitmap);
+                imageView.setVisibility(View.VISIBLE);
+                imagetextView.setVisibility(View.INVISIBLE);
+                vechicleMatchedText.setVisibility(View.INVISIBLE);
             }
             catch (IOException ex){
                 ex.printStackTrace();
@@ -156,6 +170,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(requestCode == PICK_IMAGE_FROM_CAMERA && resultCode == RESULT_OK){
                 Bitmap imageBitmap = BitmapFactory.decodeFile(imageFilePath);
                 imageView.setImageBitmap(imageBitmap);
+            imageView.setVisibility(View.VISIBLE);
+            vechicleMatchedText.setVisibility(View.INVISIBLE);
+            imagetextView.setVisibility(View.INVISIBLE);
         }
     }
 }

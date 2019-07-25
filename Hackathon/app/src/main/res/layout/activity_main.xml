@@ -48,4 +48,27 @@
         android:inputType="textPersonName"
         android:text="Name" />
 
+    <EditText
+        android:id="@+id/ImageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_marginBottom="184dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:visibility="invisible"
+        tools:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/VechicleMatchedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:visibility="invisible"
+        tools:visibility="invisible" />
+
 </RelativeLayout>

@@ -1,10 +1,24 @@
 package in.hackathon.apiservices;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,16 +30,39 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
-public class UploadFileAsync extends AsyncTask<String, Void, String> {
+import in.hackathon.crimefinder.MainActivity;
+
+public class UploadFileAsync extends AsyncTask<String, String, String> {
 
 
     private final String sourceFileUri;
 
-    public UploadFileAsync(String imageFilePath) {
-        sourceFileUri = imageFilePath;
+    private final Activity applicationContext;
+
+    private final TextView imagetextView;
+    private final ImageView imageView;
+    private final TextView vehicleMatchedText;
+    ProgressDialog dialog;
+
+    private String responseMessage="Please upload valid image";
+
+
+    public UploadFileAsync(String imageFilePath, Activity applicationContext, TextView imagetextView, ImageView imageView, TextView vechicleMatchedText) {
+        this.applicationContext=applicationContext;
+        sourceFileUri=imageFilePath;
+        this.imagetextView=imagetextView;
+        this.imageView=imageView;
+        this.vehicleMatchedText=vechicleMatchedText;
     }
 
+    @Override
+    protected void onPreExecute(){
+        dialog=new ProgressDialog(applicationContext);
+        dialog.setMessage("Loading...");
+        dialog.show();
+    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected String doInBackground(String... strings) {
@@ -108,9 +145,12 @@ public class UploadFileAsync extends AsyncTask<String, Void, String> {
 
                     if (serverResponseCode == 200) {
                         serverResponseMessage.toCharArray();
+
+                        responseMessage=new BufferedReader(new InputStreamReader(conn.getInputStream())).lines().collect(Collectors.joining());
+                        new GetMissedVechicle(applicationContext,imagetextView,imageView,vehicleMatchedText,responseMessage).execute();
                         // messageText.setText(msg);
-                        //Toast.makeText(ctx, "File Upload Complete.",
-                        //      Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(applicationContext, responseMessage,
+                            //  Toast.LENGTH_SHORT).show();
 
                         // recursiveDelete(mDirectory1);
 
@@ -137,6 +177,17 @@ public class UploadFileAsync extends AsyncTask<String, Void, String> {
 
             ex.printStackTrace();
         }
-        return "Executed";
+        return responseMessage;
+    }
+
+    @Override
+    protected void onPostExecute(String responseMessage){
+        if(dialog.isShowing()){
+            dialog.dismiss();
+        }
+        imagetextView.setText(responseMessage);
+        imagetextView.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.INVISIBLE);
+        Toast.makeText(applicationContext.getApplicationContext(),responseMessage,Toast.LENGTH_LONG).show();
     }
 }
